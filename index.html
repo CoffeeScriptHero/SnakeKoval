@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SnakeKoval</title>
+    <style>
+      #tutorial {
+        background-color: purple;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="tutorial" tabindex="1" width="150" height="200"></canvas>
+    <script>
+      const draw = () => {
+        let canvas = document.getElementById("tutorial");
+        if (canvas.getContext) {
+          let ctx = canvas.getContext("2d");
+
+          let x = 50,
+            y = 50,
+            width = 20,
+            height = 20,
+            delay = 500,
+            timerId;
+
+          const squareDelete = () => {
+            return ctx.clearRect(x, y, width, height);
+          };
+
+          const squareAppear = () => {
+            return ctx.fillRect(x, y, width, height);
+          };
+
+          const timeoutClean = () => {
+            if (timerId) {
+              clearTimeout(timerId);
+            }
+          };
+
+          //   const timerSet = (arg) => {
+          //     switch (arg) {
+          //         case "ArrowUp":
+          //     }
+          //   }
+
+          ctx.fillStyle = "#FF0000";
+
+          squareAppear();
+
+          window.addEventListener("keydown", (e) => {
+            squareDelete();
+            switch (e.code) {
+              case "ArrowUp":
+                timeoutClean();
+                y -= 10;
+                timerId = setTimeout(function tick() {
+                  squareDelete();
+                  y -= 10;
+                  squareAppear();
+                  timerId = setTimeout(tick, delay);
+                }, delay);
+                break;
+
+              case "ArrowRight":
+                timeoutClean();
+                x += 10;
+                timerId = setTimeout(function tick() {
+                  squareDelete();
+                  x += 10;
+                  squareAppear();
+                  timerId = setTimeout(tick, delay);
+                }, delay);
+                break;
+
+              case "ArrowLeft":
+                timeoutClean();
+                x -= 10;
+                timerId = setTimeout(function tick() {
+                  squareDelete();
+                  x -= 10;
+                  squareAppear();
+                  timerId = setTimeout(tick, delay);
+                }, delay);
+                break;
+
+              case "ArrowDown":
+                timeoutClean();
+                y += 10;
+                timerId = setTimeout(function tick() {
+                  squareDelete();
+                  y += 10;
+                  squareAppear();
+                  timerId = setTimeout(tick, delay);
+                }, delay);
+                break;
+            }
+
+            squareAppear();
+          });
+        }
+      };
+      window.addEventListener("load", draw());
+    </script>
+  </body>
+</html>
