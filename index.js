@@ -5,57 +5,61 @@ const draw = () => {
   if (canvas.getContext) {
     let ctx = canvas.getContext("2d");
     let weed = canvas.getContext("2d");
-    let x = 50,
-      y = 50,
-      width = 10,
-      height = 10,
-      delay = 100,
+    let x = 30,
+      y = 30,
+      width = 30,
+      height = 30,
+      delay = 80,
       dx,
       dy,
-      dWidth,
-      dHeight,
-      timerId;
+      timerId,
+      temp;
 
     ctx.fillStyle = "#FF0000";
 
     const squareDelete = () => {
       return ctx.clearRect(x, y, width, height);
     };
-
+    
     const squareAppear = () => {
       switch (x) {
-        case 140:
-          x = 0;
+        case 840:
+          x = 0
           break;
 
-        case -10:
-          x = 130;
+        case -30:
+          x = 810;
           break;
       }
 
       switch (y) {
-        case 190:
+        case 540:
           y = 0;
           break;
-        case -10:
-          y = 180;
+
+        case -30:
+          y = 510;
           break;
       }
 
       return ctx.fillRect(x, y, width, height);
     };
 
+    let min = 0,
+      max = 500;
+    const weedRandom = (min, max) => {
+      return Math.random() * (max - min + min);
+    };
+
     const generateWeed = () => {
-      return Math.random;
+      dx = weedRandom(min, max);
+      dy = weedRandom(min, max);
+      return weed.fillRect(dx, dy, width, height);
     };
 
     const weedAppear = () => {
-      weed.fillRect((dx = 20), (dy = 20), width, height);
+      weed.fillRect((dx = 0), (dy = 0), width, height);
       return (weed.fillStyle = "#FFF");
-    };
-
-    const deleteWeed = () => {
-      return weed.clearRect(dx, dy, width, height);
     };
 
     const pickUpWeed = () => {
@@ -69,13 +73,23 @@ const draw = () => {
         clearTimeout(timerId);
       }
     };
+    let weedTimer;
+    const weedCheck = () => {
+      weedTimer = setTimeout(function check() {
+        if (x === dx && y === dy) {
+          generateWeed();
+          weedAppear();
+        }
+        weedTimer = setTimeout(check, 100);
+      }, 100);
+    };
 
     const timerSet = (arg) => {
       switch (arg) {
         case "ArrowUp":
           timerId = setTimeout(function tick() {
             squareDelete();
-            y -= 10;
+            y -= 30;
             squareAppear();
             timerId = setTimeout(tick, delay);
           }, delay);
@@ -83,7 +97,7 @@ const draw = () => {
         case "ArrowRight":
           timerId = setTimeout(function tick() {
             squareDelete();
-            x += 10;
+            x += 30;
             squareAppear();
             timerId = setTimeout(tick, delay);
           }, delay);
@@ -91,7 +105,7 @@ const draw = () => {
         case "ArrowLeft":
           timerId = setTimeout(function tick() {
             squareDelete();
-            x -= 10;
+            x -= 30;
             squareAppear();
             timerId = setTimeout(tick, delay);
           }, delay);
@@ -99,7 +113,7 @@ const draw = () => {
         case "ArrowDown":
           timerId = setTimeout(function tick() {
             squareDelete();
-            y += 10;
+            y += 30;
             squareAppear();
             timerId = setTimeout(tick, delay);
           }, delay);
@@ -111,36 +125,48 @@ const draw = () => {
 
     squareAppear();
 
-    window.addEventListener("keydown", (e) => {
+    weedCheck();
+    window.addEventListener("keyup", (e) => {
       if (e.repeat) {
         squareAppear();
         return;
       }
+
+      if (
+        (e.code === "ArrowUp" && temp === "ArrowDown") ||
+        (e.code === "ArrowDown" && temp === "ArrowUp") ||
+        (e.code === "ArrowRight" && temp === "ArrowLeft") ||
+        (e.code === "ArrowLeft" && temp === "ArrowRight")
+      ) {
+        squareAppear();
+        return;
+      }
+
       squareDelete();
 
       timeoutClean();
-
       switch (e.code) {
         case "ArrowUp":
-          y -= 10;
+          y -= 30;
           timerSet("ArrowUp");
           break;
 
         case "ArrowRight":
-          x += 10;
+          x += 30;
           timerSet("ArrowRight");
           break;
 
         case "ArrowLeft":
-          x -= 10;
+          x -= 30;
           timerSet("ArrowLeft");
           break;
 
         case "ArrowDown":
-          y += 10;
+          y += 30;
           timerSet("ArrowDown");
           break;
       }
+      temp = e.code;
       squareAppear();
     });
   }
