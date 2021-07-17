@@ -3,8 +3,8 @@
 const draw = () => {
   let canvas = document.getElementById("tutorial");
   if (canvas.getContext) {
-    let ctx = canvas.getContext("2d");
-    let weed = canvas.getContext("2d");
+    let snake = canvas.getContext("2d");
+    let point = canvas.getContext("2d");
     let x = 30,
       y = 30,
       width = 30,
@@ -15,16 +15,16 @@ const draw = () => {
       timerId,
       temp;
 
-    ctx.fillStyle = "#FF0000";
+    snake.fillStyle = "#FF0000";
 
     const squareDelete = () => {
-      return ctx.clearRect(x, y, width, height);
+      return snake.clearRect(x, y, width, height);
     };
-    
+
     const squareAppear = () => {
       switch (x) {
         case 840:
-          x = 0
+          x = 0;
           break;
 
         case -30:
@@ -42,29 +42,29 @@ const draw = () => {
           break;
       }
 
-      return ctx.fillRect(x, y, width, height);
+      return snake.fillRect(x, y, width, height);
     };
 
     let min = 0,
       max = 500;
-    const weedRandom = (min, max) => {
+    const pointRandom = (min, max) => {
       return Math.random() * (max - min + min);
     };
 
-    const generateWeed = () => {
-      dx = weedRandom(min, max);
-      dy = weedRandom(min, max);
-      return weed.fillRect(dx, dy, width, height);
+    const generatePoint = () => {
+      dx = pointRandom(min, max);
+      dy = pointRandom(min, max);
+      return point.fillRect(dx, dy, width, height);
     };
 
-    const weedAppear = () => {
-      weed.fillRect((dx = 0), (dy = 0), width, height);
-      return (weed.fillStyle = "#FFF");
+    const pointAppear = () => {
+      point.fillRect((dx = 0), (dy = 0), width, height);
+      return (point.fillStyle = "#FFF");
     };
 
-    const pickUpWeed = () => {
+    const pickUpPoint = () => {
       if (x === dx && y === dy) {
-        deleteWeed();
+        deletePoint();
       }
     };
 
@@ -73,14 +73,14 @@ const draw = () => {
         clearTimeout(timerId);
       }
     };
-    let weedTimer;
-    const weedCheck = () => {
-      weedTimer = setTimeout(function check() {
+    let pointTimer;
+    const pointCheck = () => {
+      pointTimer = setTimeout(function check() {
         if (x === dx && y === dy) {
-          generateWeed();
-          weedAppear();
+          generatePoint();
+          pointAppear();
         }
-        weedTimer = setTimeout(check, 100);
+        pointTimer = setTimeout(check, 100);
       }, 100);
     };
 
@@ -121,11 +121,11 @@ const draw = () => {
       }
     };
 
-    weedAppear();
+    pointAppear();
 
     squareAppear();
 
-    weedCheck();
+    pointCheck();
     window.addEventListener("keyup", (e) => {
       if (e.repeat) {
         squareAppear();
@@ -172,3 +172,19 @@ const draw = () => {
   }
 };
 window.addEventListener("load", draw());
+// timerSet(arg) {
+//   switch (arg) {
+//     case "ArrowUp":
+//       setTimer("y", "-");
+//       break;
+//     case "ArrowRight":
+//       setTimer("x", "+");
+//       break;
+//     case "ArrowLeft":
+//       setTimer("x", "-");
+//       break;
+//     case "ArrowDown":
+//       setTimer("y", "+");
+//       break;
+//   }
+// }
