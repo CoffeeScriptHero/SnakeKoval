@@ -5,22 +5,24 @@ let x = 30,
   y = 30,
   width = 30,
   height = 30,
-  delay = 70,
-  dx = 0,
-  dy = 0,
+  delay = 1000,
+  dx = 270,
+  dy = 210,
   timerId,
   temp,
   snakePoints = [];
 
 function setTimer(letter, sign) {
   timerId = setTimeout(function tick() {
-    snake.delete();
+    for (let i = 0; i < snakePoints.length; i++) {
+      snakePoints[i].delete();
+    }
     if (sign === "+") {
       letter === "x" ? (x += 30) : (y += 30);
     } else if (sign === "-") {
       letter === "x" ? (x -= 30) : (y -= 30);
     }
-    snake.appear();
+    snakeMove();
     timerId = setTimeout(tick, delay);
   }, delay);
 }
@@ -52,17 +54,33 @@ class Snake {
         y = canvas.height - 30;
         break;
     }
-    point.check();
-    this.snake.fillStyle = "#FFF";
     if (typeof x1 !== "undefined" && typeof y1 !== "undefined") {
       this.snake.fillRect(x1, y1, width, height);
       return this.snake.strokeRect(x1, y1, width, height);
     }
+    point.check();
+    this.snake.fillStyle = "#FFF";
     this.snake.fillRect(x, y, width, height);
     return this.snake.strokeRect(x, y, width, height);
   }
   delete() {
     return this.snake.clearRect(x - 1, y - 1, width + 2, height + 2);
+  }
+  makeStep() {
+    switch (temp) {
+      case 37:
+        this.appear(x + 30, y);
+        break;
+      case 38:
+        this.appear(x, y + 30);
+        break;
+      case 39:
+        this.appear(x - 30, y);
+        break;
+      case 40:
+        this.appear(x, y - 30);
+        break;
+    }
   }
 }
 
@@ -77,23 +95,21 @@ class Point {
   generate() {
     dx = Math.floor(Math.random() * 28) * 30;
     dy = Math.floor(Math.random() * 18) * 30;
-    this.point.fillStyle = "#FF0000";
-    return this.point.fillRect(dx, dy, width, height);
   }
   delete() {
     return this.point.clearRect(dx, dy, width, height);
   }
   check() {
     if (x === dx && y === dy) {
-      // const snakePoint = new Snake();
-      // snakePoints.push(snakePoint.appear(x - 20, y - 20));
-      // console.log(snakePoints);
+      const snakePoint = new Snake();
+      snakePoint.makeStep();
+      snakePoints.push(snakePoint);
       this.delete();
       this.generate();
+      this.appear();
     }
   }
 }
-
 class Game {
   constructor(canvas) {
     this.canvas = canvas;
@@ -107,13 +123,15 @@ class Game {
         (e.keyCode === 38 && temp === 40) ||
         (e.keyCode === 40 && temp === 38)
       ) {
-        snake.appear();
+        snakeMove();
         return;
       }
 
-      snake.delete();
-
       timeoutClean();
+
+      for (let i = 0; i < snakePoints.length; i++) {
+        snakePoints[i].delete();
+      }
 
       switch (e.code) {
         case "ArrowUp":
@@ -138,9 +156,14 @@ class Game {
       }
 
       temp = e.keyCode;
-
-      snake.appear();
+      snakeMove();
     });
+  }
+}
+
+function snakeMove() {
+  for (let i = 0; i < snakePoints.length; i++) {
+    i === 0 ? snakePoints[i].appear() : snakePoints[i].makeStep();
   }
 }
 
