@@ -10,12 +10,14 @@ let x = 30,
   dy = 210,
   timerId,
   temp,
-  snakePoints = [];
+  snakePoints = [],
+  lastX = x,
+  lastY = y;
 
 function setTimer(letter, sign) {
   timerId = setTimeout(function tick() {
     for (let i = 0; i < snakePoints.length; i++) {
-      snakePoints[i].delete();
+      i === 0 ? snakePoints[i].delete() : snakePoints[i].makeStep(true);
     }
     if (sign === "+") {
       letter === "x" ? (x += 30) : (y += 30);
@@ -55,31 +57,38 @@ class Snake {
         break;
     }
     if (typeof x1 !== "undefined" && typeof y1 !== "undefined") {
+      lastX = x1;
+      lastY = y1;
       this.snake.fillRect(x1, y1, width, height);
-      return this.snake.strokeRect(x1, y1, width, height);
+      this.snake.strokeRect(x1, y1, width, height);
+      return x1, y1;
     }
+    lastX = x;
+    lastY = y;
     point.check();
-    this.snake.fillStyle = "#FFF";
+    this.snake.fillStyle = "#33f3ff";
     this.snake.fillRect(x, y, width, height);
     return this.snake.strokeRect(x, y, width, height);
   }
-  delete() {
+  delete(x2, y2) {
+    if (typeof x2 !== "undefined" && typeof y2 !== "undefined") {
+      return this.snake.clearRect(x2 - 1, y2 - 1, width + 2, height + 2);
+    }
     return this.snake.clearRect(x - 1, y - 1, width + 2, height + 2);
   }
-  makeStep() {
+  makeStep(flag) {
     switch (temp) {
       case 37:
-        this.appear(x + 30, y);
-        break;
+        return flag ? this.delete(x + 30, y) : this.appear(x + 30, y);
+
       case 38:
-        this.appear(x, y + 30);
-        break;
+        return flag ? this.delete(x, y + 30) : this.appear(x, y + 30);
+
       case 39:
-        this.appear(x - 30, y);
-        break;
+        return flag ? this.delete(x - 30, y) : this.appear(x - 30, y);
+
       case 40:
-        this.appear(x, y - 30);
-        break;
+        return flag ? this.delete(x, y - 30) : this.appear(x, y - 30);
     }
   }
 }
@@ -116,21 +125,15 @@ class Game {
   }
 
   listenKey(snake) {
-    window.addEventListener(`keyup`, (e) => {
-      if (
-        (e.keyCode === 39 && temp === 37) ||
-        (e.keyCode === 37 && temp === 39) ||
-        (e.keyCode === 38 && temp === 40) ||
-        (e.keyCode === 40 && temp === 38)
-      ) {
+    window.addEventListener(`keydown`, (e) => {
+      if (e.repeat || e.keyCode - temp === 2 || temp - e.keyCode === 2) {
         snakeMove();
         return;
       }
-
       timeoutClean();
 
       for (let i = 0; i < snakePoints.length; i++) {
-        snakePoints[i].delete();
+        i === 0 ? snakePoints[i].delete() : snakePoints[i].makeStep(true);
       }
 
       switch (e.code) {

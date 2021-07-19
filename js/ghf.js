@@ -15,7 +15,7 @@ const draw = () => {
       timerId,
       temp;
 
-    snake.fillStyle = "#FF0000";
+    snake.fillStyle = "#33f3ff";
 
     const squareDelete = () => {
       return snake.clearRect(x, y, width, height);
