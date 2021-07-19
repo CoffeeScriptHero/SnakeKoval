@@ -15,18 +15,18 @@ let x = 30,
   lastY = y;
 
 function setTimer(letter, sign) {
-  timerId = setTimeout(function tick() {
-    for (let i = 0; i < snakePoints.length; i++) {
-      i === 0 ? snakePoints[i].delete() : snakePoints[i].makeStep(true);
-    }
-    if (sign === "+") {
-      letter === "x" ? (x += 30) : (y += 30);
-    } else if (sign === "-") {
-      letter === "x" ? (x -= 30) : (y -= 30);
-    }
-    snakeMove();
-    timerId = setTimeout(tick, delay);
-  }, delay);
+  // timerId = setTimeout(function tick() {
+  //   for (let i = 0; i < snakePoints.length; i++) {
+  //     i === 0 ? snakePoints[i].delete() : snakePoints[i].makeStep(true);
+  //   }
+  //   if (sign === "+") {
+  //     letter === "x" ? (x += 30) : (y += 30);
+  //   } else if (sign === "-") {
+  //     letter === "x" ? (x -= 30) : (y -= 30);
+  //   }
+  //   snakeMove();
+  //   timerId = setTimeout(tick, delay);
+  // }, delay);
 }
 
 function timeoutClean() {
@@ -39,6 +39,7 @@ class Snake {
   constructor() {
     this.snake = canvas.getContext("2d");
   }
+
   appear(x1, y1) {
     switch (x) {
       case canvas.width:
@@ -56,26 +57,27 @@ class Snake {
         y = canvas.height - 30;
         break;
     }
+
     if (typeof x1 !== "undefined" && typeof y1 !== "undefined") {
-      lastX = x1;
-      lastY = y1;
       this.snake.fillRect(x1, y1, width, height);
       this.snake.strokeRect(x1, y1, width, height);
-      return x1, y1;
+      return (lastX = x1), (lastY = y1);
+    } else {
+      point.check();
+      this.snake.fillStyle = "#33f3ff";
+      this.snake.fillRect(x, y, width, height);
+      this.snake.strokeRect(x, y, width, height);
+      return (lastX = x), (lastY = y);
     }
-    lastX = x;
-    lastY = y;
-    point.check();
-    this.snake.fillStyle = "#33f3ff";
-    this.snake.fillRect(x, y, width, height);
-    return this.snake.strokeRect(x, y, width, height);
   }
+
   delete(x2, y2) {
     if (typeof x2 !== "undefined" && typeof y2 !== "undefined") {
       return this.snake.clearRect(x2 - 1, y2 - 1, width + 2, height + 2);
     }
     return this.snake.clearRect(x - 1, y - 1, width + 2, height + 2);
   }
+
   makeStep(flag) {
     switch (temp) {
       case 37:
@@ -137,22 +139,22 @@ class Game {
       }
 
       switch (e.code) {
-        case "ArrowUp":
+        case "ArrowUp": // 38
           y -= 30;
           setTimer("y", "-");
           break;
 
-        case "ArrowRight":
+        case "ArrowRight": // 39
           x += 30;
           setTimer("x", "+");
           break;
 
-        case "ArrowLeft":
+        case "ArrowLeft": //37
           x -= 30;
           setTimer("x", "-");
           break;
 
-        case "ArrowDown":
+        case "ArrowDown": //40
           y += 30;
           setTimer("y", "+");
           break;
