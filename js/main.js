@@ -10,29 +10,55 @@ let x = 30,
   dy = 210,
   timerId,
   temp,
-  snakePoints = [],
-  lastX = x,
-  lastY = y;
+  snakePoints = [];
 
-function setTimer(letter, sign) {
-  // timerId = setTimeout(function tick() {
-  //   for (let i = 0; i < snakePoints.length; i++) {
-  //     i === 0 ? snakePoints[i].delete() : snakePoints[i].makeStep(true);
-  //   }
-  //   if (sign === "+") {
-  //     letter === "x" ? (x += 30) : (y += 30);
-  //   } else if (sign === "-") {
-  //     letter === "x" ? (x -= 30) : (y -= 30);
-  //   }
-  //   snakeMove();
-  //   timerId = setTimeout(tick, delay);
-  // }, delay);
+function snakeDeleting(keyCode) {
+  for (let i = 0; i < snakePoints.length; i++) {
+    if (!temp) {
+      temp = keyCode;
+    }
+    switch (temp) {
+      case 37: //left
+        snakePoints[i].delete(calculateCoord(i, -30, x), y);
+        break;
+      case 38: // up
+        snakePoints[i].delete(x, calculateCoord(i, -30, y));
+        break;
+      case 39: // right
+        snakePoints[i].delete(calculateCoord(i, 30, x), y);
+        break;
+      case 40: // down
+        snakePoints[i].delete(x, calculateCoord(i, 30, y));
+        break;
+    }
+  }
+}
+
+function snakeMove() {
+  for (let i = 0; i < snakePoints.length; i++) {
+    i === 0 ? snakePoints[i].appear() : snakePoints[i].makeStep(i);
+  }
+}
+
+function calculateCoord(n, step, value) {
+  return (value -= n * step);
 }
 
 function timeoutClean() {
-  if (timerId) {
-    clearTimeout(timerId);
-  }
+  return timerId ? clearTimeout(timerId) : false;
+}
+
+function setTimer(letter, sign) {
+  timerId = setTimeout(function tick() {
+    snakeDeleting();
+    if (sign === "+") {
+      letter === "x" ? (x += 30) : (y += 30);
+    } else if (sign === "-") {
+      letter === "x" ? (x -= 30) : (y -= 30);
+    }
+    snakeMove();
+    timerId = setTimeout(tick, delay);
+  }, delay);
 }
 
 class Snake {
@@ -60,14 +86,12 @@ class Snake {
 
     if (typeof x1 !== "undefined" && typeof y1 !== "undefined") {
       this.snake.fillRect(x1, y1, width, height);
-      this.snake.strokeRect(x1, y1, width, height);
-      return (lastX = x1), (lastY = y1);
+      return this.snake.strokeRect(x1, y1, width, height);
     } else {
       point.check();
       this.snake.fillStyle = "#33f3ff";
       this.snake.fillRect(x, y, width, height);
-      this.snake.strokeRect(x, y, width, height);
-      return (lastX = x), (lastY = y);
+      return this.snake.strokeRect(x, y, width, height);
     }
   }
 
@@ -78,19 +102,20 @@ class Snake {
     return this.snake.clearRect(x - 1, y - 1, width + 2, height + 2);
   }
 
-  makeStep(flag) {
+  makeStep(i) {
     switch (temp) {
       case 37:
-        return flag ? this.delete(x + 30, y) : this.appear(x + 30, y);
-
+        this.appear(calculateCoord(i, -30, x), y);
+        break;
       case 38:
-        return flag ? this.delete(x, y + 30) : this.appear(x, y + 30);
-
+        this.appear(x, calculateCoord(i, -30, y));
+        break;
       case 39:
-        return flag ? this.delete(x - 30, y) : this.appear(x - 30, y);
-
+        this.appear(calculateCoord(i, 30, x), y);
+        break;
       case 40:
-        return flag ? this.delete(x, y - 30) : this.appear(x, y - 30);
+        this.appear(x, calculateCoord(i, 30, y));
+        break;
     }
   }
 }
@@ -113,8 +138,8 @@ class Point {
   check() {
     if (x === dx && y === dy) {
       const snakePoint = new Snake();
-      snakePoint.makeStep();
       snakePoints.push(snakePoint);
+      snakePoint.makeStep();
       this.delete();
       this.generate();
       this.appear();
@@ -129,46 +154,37 @@ class Game {
   listenKey(snake) {
     window.addEventListener(`keydown`, (e) => {
       if (e.repeat || e.keyCode - temp === 2 || temp - e.keyCode === 2) {
-        snakeMove();
         return;
       }
+
       timeoutClean();
 
-      for (let i = 0; i < snakePoints.length; i++) {
-        i === 0 ? snakePoints[i].delete() : snakePoints[i].makeStep(true);
-      }
+      snakeDeleting(e.keyCode);
 
-      switch (e.code) {
-        case "ArrowUp": // 38
+      switch (e.keyCode) {
+        case 38:
           y -= 30;
           setTimer("y", "-");
           break;
 
-        case "ArrowRight": // 39
+        case 39:
           x += 30;
           setTimer("x", "+");
           break;
 
-        case "ArrowLeft": //37
+        case 37:
           x -= 30;
           setTimer("x", "-");
           break;
 
-        case "ArrowDown": //40
+        case 40:
           y += 30;
           setTimer("y", "+");
           break;
       }
-
       temp = e.keyCode;
       snakeMove();
     });
-  }
-}
-
-function snakeMove() {
-  for (let i = 0; i < snakePoints.length; i++) {
-    i === 0 ? snakePoints[i].appear() : snakePoints[i].makeStep();
   }
 }
 
