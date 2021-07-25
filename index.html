@@ -5,19 +5,110 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="#" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;700&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
     <title>JavaScript Snake</title>
-    <style>
-      body {
-        text-align: center;
-        padding-top: 25px;
-      }
-      #canvas {
-        background-color: black;
-      }
-    </style>
   </head>
   <body>
-    <canvas id="canvas" tabindex="1" width="840" height="540"></canvas>
+    <div class="snake-header">
+      <p class="title">JavaScript Snake</p>
+      <a href="#" class="settings">Настроить игру</a>
+    </div>
+
+    <canvas id="canvas" tabindex="1" width="1350" height="750"></canvas>
+    <div class="game-settings">
+      <p class="settings-title">Настройки игры</p>
+      <div class="game-mode-wrapper settings-wrapper">
+        <p class="game-mode settings-option">Режим игры:</p>
+        <select id="mode-select" class="settings-select">
+          <option value="" selected>Обычный</option>
+          <option value="">Beer mode</option>
+          <option value="">???</option>
+        </select>
+      </div>
+      <div class="snake-background-wrapper settings-wrapper">
+        <p class="snake-background settings-option">Фон змейки:</p>
+        <select id="snake-bg-select" class="settings-select">
+          <option value="" selected>Черный</option>
+          <option value="">Фиолетовый</option>
+          <option value="">Зеленый</option>
+          <option value="">Розовый</option>
+          <option value="">Синий</option>
+          <option value="">Голубой</option>
+          <option value="">Красный</option>
+        </select>
+      </div>
+      <div class="snake-wrapper settings-wrapper">
+        <p class="snake-color settings-option">Цвет змейки:</p>
+        <select id="snake-color-select" class="settings-select">
+          <option value="" selected>Черный</option>
+          <option value="">Фиолетовый</option>
+          <option value="">Зеленый</option>
+          <option value="">Розовый</option>
+          <option value="">Синий</option>
+          <option value="">Голубой</option>
+          <option value="">Красный</option>
+        </select>
+      </div>
+      <div class="page-wrapper settings-wrapper">
+        <p class="page-bg settings-option">Фон страницы:</p>
+        <select id="page-bg-select" class="settings-select">
+          <option value="" selected>Белый</option>
+          <option value="">Черный</option>
+        </select>
+      </div>
+      <div class="speed-wrapper settings-wrapper">
+        <p class="speed-select settings-option">Скорость:</p>
+        <select id="speed-select" class="settings-select">
+          <option value="Медленно">Медленно</option>
+          <option value="Обычно">Обычно</option>
+          <option selected value="Приемлимо">Приемлимо</option>
+          <option value="Быстро">Быстро</option>
+          <option value="Вы серьезно?">Вы серьезно?</option>
+        </select>
+      </div>
+      <div class="size-wrapper settings-wrapper">
+        <p class="size-select settings-option">Размер поля:</p>
+        <select id="size-select" class="settings-select">
+          <option value="Маленькое">Маленькое</option>
+          <option value="Среднее">Среднее</option>
+          <option selected value="Большое">Большое</option>
+        </select>
+      </div>
+      <div class="save-wrapper">
+        <a href="#" class="save-button">Сохранить настройки</a>
+      </div>
+    </div>
+    <div class="game-alert display-none">
+      <p class="game-over">Игра окончена</p>
+      <p class="game-result">Ваш счет: <span class="score"></span></p>
+    </div>
     <script src="js/main.js"></script>
+    <script src="js/settings.js"></script>
   </body>
 </html>
+
+<!-- <div class="game-settings">
+      <p class="settings-title">Настройка игры</p>
+      <ul class="settings-list">
+        <li class="settings-option">
+          <p class="game-mode settings-text">Режим:</p>
+          <select name="mode-select" class="settings-select">
+            <option value="" selected>Обычный</option>
+            <option value="">Beer mode</option>
+            <option value="">???</option>
+          </select>
+        </li>
+        <li class="settings-option"></li>
+        <li class="settings-option"></li>
+        <li class="settings-option"></li>
+        <li class="settings-option"></li>
+        <li class="settings-option"></li>
+      </ul>
+    </div> -->
