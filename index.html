@@ -17,43 +17,35 @@
   </head>
   <body>
     <div class="snake-header">
-      <p class="title">JavaScript Snake</p>
-      <a href="#" class="settings">Настроить игру</a>
+      <p class="title neon-title">JavaScript Snake</p>
+      <a href="#" class="settings-button">Настроить игру</a>
     </div>
 
     <canvas id="canvas" tabindex="1" width="1350" height="750"></canvas>
-    <div class="game-settings">
+    <div class="game-settings display-none">
       <p class="settings-title">Настройки игры</p>
-      <div class="game-mode-wrapper settings-wrapper">
-        <p class="game-mode settings-option">Режим игры:</p>
-        <select id="mode-select" class="settings-select">
-          <option value="" selected>Обычный</option>
-          <option value="">Beer mode</option>
-          <option value="">???</option>
-        </select>
-      </div>
-      <div class="snake-background-wrapper settings-wrapper">
-        <p class="snake-background settings-option">Фон змейки:</p>
+      <div class="snake-bg-wrapper settings-wrapper">
+        <p class="snake-background settings-option">Фон поля:</p>
         <select id="snake-bg-select" class="settings-select">
           <option value="" selected>Черный</option>
-          <option value="">Фиолетовый</option>
-          <option value="">Зеленый</option>
-          <option value="">Розовый</option>
-          <option value="">Синий</option>
-          <option value="">Голубой</option>
-          <option value="">Красный</option>
+          <option value="white">Белый</option>
+          <option value="green">Зеленый</option>
+          <option value="pink">Розовый</option>
+          <option value="blue">Синий</option>
+          <option value="lightblue">Голубой</option>
+          <option value="red">Красный</option>
         </select>
       </div>
-      <div class="snake-wrapper settings-wrapper">
+      <div class="snake-color-wrapper settings-wrapper">
         <p class="snake-color settings-option">Цвет змейки:</p>
         <select id="snake-color-select" class="settings-select">
           <option value="" selected>Черный</option>
-          <option value="">Фиолетовый</option>
-          <option value="">Зеленый</option>
-          <option value="">Розовый</option>
-          <option value="">Синий</option>
-          <option value="">Голубой</option>
-          <option value="">Красный</option>
+          <option value="Фиолетовый">Фиолетовый</option>
+          <option value="Зеленый">Зеленый</option>
+          <option value="Розовый">Розовый</option>
+          <option value="Синий">Синий</option>
+          <option value="Голубой">Голубой</option>
+          <option value="Красный">Красный</option>
         </select>
       </div>
       <div class="page-wrapper settings-wrapper">
@@ -61,6 +53,14 @@
         <select id="page-bg-select" class="settings-select">
           <option value="" selected>Белый</option>
           <option value="">Черный</option>
+        </select>
+      </div>
+      <div class="game-mode-wrapper settings-wrapper">
+        <p class="game-mode settings-option">Режим игры:</p>
+        <select id="mode-select" class="settings-select">
+          <option value="" selected>Обычный</option>
+          <option value="">Beer mode</option>
+          <option value="">???</option>
         </select>
       </div>
       <div class="speed-wrapper settings-wrapper">
@@ -89,26 +89,6 @@
       <p class="game-over">Игра окончена</p>
       <p class="game-result">Ваш счет: <span class="score"></span></p>
     </div>
-    <script src="js/main.js"></script>
-    <script src="js/settings.js"></script>
+    <script src="js/main.js" type="module"></script>
   </body>
 </html>
-
-<!-- <div class="game-settings">
-      <p class="settings-title">Настройка игры</p>
-      <ul class="settings-list">
-        <li class="settings-option">
-          <p class="game-mode settings-text">Режим:</p>
-          <select name="mode-select" class="settings-select">
-            <option value="" selected>Обычный</option>
-            <option value="">Beer mode</option>
-            <option value="">???</option>
-          </select>
-        </li>
-        <li class="settings-option"></li>
-        <li class="settings-option"></li>
-        <li class="settings-option"></li>
-        <li class="settings-option"></li>
-        <li class="settings-option"></li>
-      </ul>
-    </div> -->

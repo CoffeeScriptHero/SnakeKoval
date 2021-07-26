@@ -1,9 +1,17 @@
-const button = document.querySelector(`.settings`);
-const modal = document.querySelector(`.game-alert`);
+const btn = document.querySelector(`.settings-button`);
+const modal = document.querySelector(`.game-settings`);
+const selects = document.querySelectorAll(".settings-select");
+const save_btn = document.querySelector(".save-button");
 
-button.addEventListener("click", () => {
-  button.classList.toggle("clicked");
-  if (button.classList.contains("clicked")) {
-    modal.classList.remove("display-none");
-  }
-});
+export { btn, modal, selects };
+
+export function setHandlers() {
+  btn.addEventListener("click", () => {
+    modal.classList.toggle("display-none");
+  });
+  save_btn.addEventListener("click", () => {
+    selects.forEach((select, index) => {
+      console.log(select.value);
+    });
+  });
+}

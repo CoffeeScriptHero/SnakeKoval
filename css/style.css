@@ -1,5 +1,5 @@
 body {
-  background-color: white;
+  background-color: black;
   text-align: center;
   padding-top: 25px;
   font-family: "Press Start 2p";
@@ -27,19 +27,44 @@ body {
 .snake-header {
   max-width: 1350px;
   margin: 0 auto;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .title {
   display: inline-block;
-  font-family: "Anton", sans-serif;
-  font-size: 70px;
+  /* font-family: "Anton", sans-serif; */
+  /* font-family: "Montserrat"; */
+  font-size: 40px;
   margin: 0;
   letter-spacing: 6px;
 }
+.neon-title {
+  animation: flicker 1.5s infinite alternate;
+  color: #fff;
+  font-weight: 400;
+}
+@keyframes flicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
+      0 0 80px #0fa, 0 0 90px #0fa, 0 0 100px #0fa, 0 0 150px #0fa;
+  }
 
-.settings {
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+.settings-button {
   text-decoration: none;
   display: inline-block;
   margin: 10px 20px;
@@ -47,7 +72,7 @@ body {
   overflow: hidden;
   border: 2px solid;
   border-bottom-width: 4px;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Press start 2p", sans-serif;
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 2px;
@@ -55,7 +80,7 @@ body {
   background: rgba(255, 255, 255, 1);
   transition: color 0.3s, background 0.5s;
 }
-.settings:hover {
+.settings-button:hover {
   animation: stripes 0.75s infinite linear;
   background: linear-gradient(
     45deg,
@@ -79,30 +104,6 @@ body {
   }
 }
 
-/* .gfd {
-  animation: flicker 1.5s infinite alternate;
-  color: #fff;
-}
-
-@keyframes flicker {
-  0%,
-  18%,
-  22%,
-  25%,
-  53%,
-  57%,
-  100% {
-    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
-      0 0 80px #0fa, 0 0 90px #0fa, 0 0 100px #0fa, 0 0 150px #0fa;
-  }
-
-  20%,
-  24%,
-  55% {
-    text-shadow: none;
-  }
-} */
-
 .game-settings {
   position: absolute;
   width: 300px;
@@ -117,6 +118,84 @@ body {
   left: 0;
   right: 0;
   z-index: 2;
+}
+
+.game-settings:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+  box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+  z-index: -1;
+  -webkit-animation-name: gradient-shadow;
+  animation-name: gradient-shadow;
+  -webkit-animation-timing-function: ease;
+  animation-timing-function: ease;
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+@-webkit-keyframes gradient-shadow {
+  0% {
+    -webkit-box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+    box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+  }
+  20% {
+    -webkit-box-shadow: 0 0 17px 3px #0ff, 0 0 4px 2px #0ff;
+    box-shadow: 0 0 17px 3px #0ff, 0 0 4px 2px #0ff;
+  }
+  40% {
+    -webkit-box-shadow: 0 0 17px 3px #0f0, 0 0 4px 2px #0f0;
+    box-shadow: 0 0 17px 3px #0f0, 0 0 4px 2px #0f0;
+  }
+  60% {
+    -webkit-box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+    box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+  }
+  80% {
+    -webkit-box-shadow: 0 0 17px 3px #f00, 0 0 4px 2px #f00;
+    box-shadow: 0 0 17px 3px #f00, 0 0 4px 2px #f00;
+  }
+  100% {
+    -webkit-box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+    box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+  }
+}
+
+@keyframes gradient-shadow {
+  0% {
+    -webkit-box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+    box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+  }
+  20% {
+    -webkit-box-shadow: 0 0 17px 3px #0ff, 0 0 4px 2px #0ff;
+    box-shadow: 0 0 17px 3px #0ff, 0 0 4px 2px #0ff;
+  }
+  40% {
+    -webkit-box-shadow: 0 0 17px 3px #0f0, 0 0 4px 2px #0f0;
+    box-shadow: 0 0 17px 3px #0f0, 0 0 4px 2px #0f0;
+  }
+  60% {
+    -webkit-box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+    box-shadow: 0 0 17px 3px #ffff01, 0 0 4px 2px #ffff01;
+  }
+  80% {
+    -webkit-box-shadow: 0 0 17px 3px #f00, 0 0 4px 2px #f00;
+    box-shadow: 0 0 17px 3px #f00, 0 0 4px 2px #f00;
+  }
+  100% {
+    -webkit-box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+    box-shadow: 0 0 17px 3px #c586c0, 0 0 4px 2px #c586c0;
+  }
 }
 
 .settings-option {
@@ -136,16 +215,15 @@ body {
 .save-wrapper {
   margin-top: 15px;
 }
+
 .save-button {
   text-decoration: none;
   display: inline-block;
   padding: 8px 8px;
-  border: 2px solid #0f78f1ad;
   color: #0f78f1ad;
-  font-family: "Montserrat", sans-serif;
   transition: 0.4s;
 }
 
 .save-button:hover {
-  border-color: #0f78f1;
+  color: #0000ff;
 }
