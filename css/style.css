@@ -9,9 +9,9 @@ body {
 }
 .game-alert {
   position: absolute;
-  width: 300px;
+  width: 350px;
   height: 300px;
-  background-color: lightgray;
+  background-color: white;
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -20,6 +20,36 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
+  border-radius: 5px;
+  z-index: 2;
+}
+.game-restart {
+  border: 2px solid blueviolet;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 0;
+  text-decoration: none;
+  background: rgb(31, 31, 93);
+  cursor: pointer;
+  transition: background 250ms ease-in-out, transform 150ms ease;
+}
+.game-over {
+  font-size: 24px;
+}
+.game-result {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+.game-joke {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+.svg-restart {
+  width: 40px;
+  height: 40px;
+  fill: blueviolet;
 }
 .display-none {
   display: none;
@@ -34,8 +64,6 @@ body {
 }
 .title {
   display: inline-block;
-  /* font-family: "Anton", sans-serif; */
-  /* font-family: "Montserrat"; */
   font-size: 40px;
   margin: 0;
   letter-spacing: 6px;
@@ -113,6 +141,7 @@ body {
   margin-right: auto;
   margin-top: auto;
   margin-bottom: auto;
+  border-radius: 5px;
   top: 0;
   bottom: 0;
   left: 0;
@@ -120,7 +149,8 @@ body {
   z-index: 2;
 }
 
-.game-settings:before {
+.game-settings:before,
+.game-alert:before {
   content: "";
   position: absolute;
   left: 0;

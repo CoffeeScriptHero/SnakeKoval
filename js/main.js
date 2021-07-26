@@ -1,6 +1,13 @@
 "use strict";
-
-import { btn, modal, selects, setHandlers } from "./settings.js";
+import {
+  btn,
+  modal,
+  selects,
+  setHandlers,
+  saveBtn,
+  resBtn,
+  gameAlert,
+} from "./settings.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -12,13 +19,13 @@ let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   temp,
   width = 30,
   height = 30,
-  delay = 20,
+  delay = 50,
   dx,
   dy,
   sPoints = [],
   score = 0,
   lastStep,
-  timerId;
+  interval;
 
 sPoints[0] = { x: x, y: y };
 
@@ -39,6 +46,7 @@ const spawnPoint = () => {
 const check = () => {
   if (x == dx && y == dy) {
     sPoints.push();
+    score++;
     generatePoint();
     return;
   }
@@ -60,7 +68,6 @@ const checkCoordinates = () => {
 };
 
 function setAxis(e) {
-  console.log(lastStep);
   if (e.keyCode === 37 && temp !== "right" && lastStep !== "right") {
     temp = "left";
   } else if (e.keyCode === 38 && temp !== "down" && lastStep !== "down") {
@@ -77,12 +84,9 @@ function game() {
   ctx.drawImage(background, 0, 0);
   spawnPoint();
   for (let i = 0; i < sPoints.length; i++) {
-    // const img2 = new Image();
-    // img2.src = "../js/gfd.PNG";
     ctx.fillStyle = "white";
     ctx.fillRect(sPoints[i].x, sPoints[i].y, width, height);
     ctx.strokeRect(sPoints[i].x, sPoints[i].y, width, height);
-    // ctx.drawImage(img2, sPoints[i].x, sPoints[i].y);
   }
 
   if (temp == "left") {
@@ -104,16 +108,23 @@ function game() {
   sPoints.forEach((elem, index) => {
     for (let i = 0; i < sPoints.length; i++) {
       if (i === index) return;
-      if (elem.x === sPoints[i].x && elem.y === sPoints[i].y)
+      if (elem.x === sPoints[i].x && elem.y === sPoints[i].y) {
         clearInterval(interval);
+        gameAlert.classList.remove("display-none");
+        gameAlert.querySelector(".score").textContent = score;
+      }
     }
   });
 
   sPoints.unshift({ x: x, y: y });
 }
 
-document.addEventListener("keydown", setAxis);
-generatePoint();
-setHandlers();
+export default function main() {
+  (sPoints = []), (temp = ""), (lastStep = ""), (score = 0);
+  document.addEventListener("keydown", setAxis);
+  generatePoint();
+  setHandlers();
+  interval = setInterval(game, delay);
+}
 
-let interval = setInterval(game, delay);
+main();
