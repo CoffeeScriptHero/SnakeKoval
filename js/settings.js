@@ -4,7 +4,7 @@ const selects = document.querySelectorAll(".settings-select");
 const saveBtn = document.querySelector(".save-button");
 const resBtn = document.querySelector(".game-restart");
 const gameAlert = document.querySelector(".game-alert");
-const settings = { color: "white", delay: "40" };
+const settings = { color: "white", "game-mode": "default" };
 
 export { btn, modal, selects, saveBtn, resBtn, gameAlert, settings };
 import { background, main } from "./main.js";
@@ -61,7 +61,10 @@ export function setHandlers() {
             settings["page-bg"] = "default";
           }
           break;
-        case "mode-select":
+        case "game-mode":
+          console.log(select.value);
+          settings["game-mode"] = select.value;
+          break;
         case "speed-select":
           if (select.value == "noob") {
             settings.delay = 70;
@@ -79,8 +82,15 @@ export function setHandlers() {
           settings["speed-select"] = select.value;
           break;
         case "size-select":
+          if (select.value == "medium") {
+            // settings.siz
+          }
       }
     });
+    if (settings["game-mode"] == "fumny") {
+      const haha = new Audio("../sounds/haha.mp3");
+      haha.play();
+    }
     localStorage.setItem("settings", JSON.stringify(settings));
   });
 }

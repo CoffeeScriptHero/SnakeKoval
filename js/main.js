@@ -14,6 +14,8 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const pickup = new Audio("../sounds/pickup.mp3");
 const death = new Audio("../sounds/death.mp3");
+const fumny_pickup = new Audio("../sounds/fumny-pickup.mp3");
+const fumny_death = new Audio("../sounds/fumny-death.mp3");
 
 export const background = new Image();
 background.src = "../images/backgrounds/default.jpg";
@@ -24,11 +26,13 @@ let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   width = 30,
   height = 30,
   dx,
+  delay = 40,
   dy,
   sPoints = [],
   score = 0,
   lastStep,
-  interval;
+  interval,
+  gameMode = settings["game-mode"];
 
 sPoints[0] = { x: x, y: y };
 
@@ -41,6 +45,7 @@ if (localStorage.getItem("settings")) {
   if (parsed["snake-color"]) {
     settings.color = parsed["snake-color"];
   }
+
   if (parsed["page-bg"] == "white") {
     document.body.classList.remove("black");
     document.querySelector(".title").classList.remove("neon-title");
@@ -48,15 +53,26 @@ if (localStorage.getItem("settings")) {
     document.body.classList.add("black");
     document.querySelector(".title").classList.add("neon-title");
   }
-  if (parsed["speed-select"]) {
-    const speed = parsed["speed-select"];
-    if (speed == "noob") settings.delay = 70;
-    if (speed == "easy") settings.delay = 55;
-    if (speed == "default") settings.delay = 40;
-    if (speed == "fast") settings.delay = 25;
-    if (speed == "omg") settings.delay = 5;
+
+  if (parsed["game-mode"]) {
+    gameMode = parsed["game-mode"];
   }
 }
+
+const updateValues = () => {
+  if (localStorage.getItem("settings")) {
+    const locale_delay = JSON.parse(localStorage.getItem("settings")).delay;
+    const locale_gameMode = JSON.parse(localStorage.getItem("settings"))[
+      "game-mode"
+    ];
+    if (locale_delay) {
+      delay = locale_delay;
+    }
+    if (locale_gameMode) {
+      gameMode = locale_gameMode;
+    }
+  }
+};
 
 const generatePoint = () => {
   do {
@@ -66,16 +82,25 @@ const generatePoint = () => {
 };
 
 const spawnPoint = () => {
-  ctx.fillStyle = "red";
-  ctx.fillRect(dx, dy, width, height);
-  ctx.strokeRect(dx, dy, width, height);
-  ctx.lineWidth = "4px";
+  if (gameMode == "default") {
+    ctx.fillStyle = "red";
+    ctx.fillRect(dx, dy, width, height);
+    ctx.strokeRect(dx, dy, width, height);
+  } else {
+    const img1 = new Image();
+    img1.src = `../images/skins/${gameMode}2.jpg`;
+    ctx.drawImage(img1, dx, dy);
+  }
 };
 
 const check = () => {
   if (x == dx && y == dy) {
     sPoints.push();
-    pickup.play();
+    if (gameMode == "default") {
+      pickup.play();
+    } else if (gameMode == "fumny") {
+      fumny_pickup.play();
+    }
     score++;
     generatePoint();
     return;
@@ -114,9 +139,15 @@ function game() {
   ctx.drawImage(background, 0, 0);
   spawnPoint();
   for (let i = 0; i < sPoints.length; i++) {
-    ctx.fillStyle = settings.color;
-    ctx.fillRect(sPoints[i].x, sPoints[i].y, width, height);
-    ctx.strokeRect(sPoints[i].x, sPoints[i].y, width, height);
+    if (gameMode == "default") {
+      ctx.fillStyle = settings.color;
+      ctx.fillRect(sPoints[i].x, sPoints[i].y, width, height);
+      ctx.strokeRect(sPoints[i].x, sPoints[i].y, width, height);
+    } else {
+      const img2 = new Image();
+      img2.src = `../images/skins/${gameMode}1.jpg`;
+      ctx.drawImage(img2, sPoints[i].x, sPoints[i].y);
+    }
   }
 
   if (temp == "left") {
@@ -140,7 +171,11 @@ function game() {
       if (i === index) return;
       if (elem.x === sPoints[i].x && elem.y === sPoints[i].y) {
         clearInterval(interval);
-        death.play();
+        if (gameMode == "default") {
+          death.play();
+        } else if (gameMode == "fumny") {
+          fumny_death.play();
+        }
         gameAlert.classList.remove("display-none");
         gameAlert.querySelector(".score").textContent = score;
       }
@@ -153,10 +188,11 @@ function game() {
 setHandlers();
 
 export function main() {
+  updateValues();
   (sPoints = []), (temp = ""), (lastStep = ""), (score = 0);
   document.addEventListener("keydown", setAxis);
   generatePoint();
-  interval = setInterval(game, settings.delay);
+  interval = setInterval(game, delay);
 }
 
 main();
