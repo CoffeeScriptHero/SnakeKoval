@@ -7,19 +7,22 @@ import {
   saveBtn,
   resBtn,
   gameAlert,
+  settings,
 } from "./settings.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const background = new Image();
-background.src = "../images/backgrounds/blue.jpg";
+const pickup = new Audio("../sounds/pickup.mp3");
+const death = new Audio("../sounds/death.mp3");
+
+export const background = new Image();
+background.src = "../images/backgrounds/default.jpg";
 
 let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   y = Math.floor(Math.random() * (canvas.height / 30)) * 30,
   temp,
   width = 30,
   height = 30,
-  delay = 50,
   dx,
   dy,
   sPoints = [],
@@ -28,6 +31,32 @@ let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   interval;
 
 sPoints[0] = { x: x, y: y };
+
+if (localStorage.getItem("settings")) {
+  var parsed = JSON.parse(localStorage["settings"]);
+  parsed["snake-bg"]
+    ? (background.src = parsed["snake-bg-src"])
+    : (background.src = "../images/backgrounds/default.jpg");
+
+  if (parsed["snake-color"]) {
+    settings.color = parsed["snake-color"];
+  }
+  if (parsed["page-bg"] == "white") {
+    document.body.classList.remove("black");
+    document.querySelector(".title").classList.remove("neon-title");
+  } else {
+    document.body.classList.add("black");
+    document.querySelector(".title").classList.add("neon-title");
+  }
+  if (parsed["speed-select"]) {
+    const speed = parsed["speed-select"];
+    if (speed == "noob") settings.delay = 70;
+    if (speed == "easy") settings.delay = 55;
+    if (speed == "default") settings.delay = 40;
+    if (speed == "fast") settings.delay = 25;
+    if (speed == "omg") settings.delay = 5;
+  }
+}
 
 const generatePoint = () => {
   do {
@@ -46,6 +75,7 @@ const spawnPoint = () => {
 const check = () => {
   if (x == dx && y == dy) {
     sPoints.push();
+    pickup.play();
     score++;
     generatePoint();
     return;
@@ -84,7 +114,7 @@ function game() {
   ctx.drawImage(background, 0, 0);
   spawnPoint();
   for (let i = 0; i < sPoints.length; i++) {
-    ctx.fillStyle = "white";
+    ctx.fillStyle = settings.color;
     ctx.fillRect(sPoints[i].x, sPoints[i].y, width, height);
     ctx.strokeRect(sPoints[i].x, sPoints[i].y, width, height);
   }
@@ -110,6 +140,7 @@ function game() {
       if (i === index) return;
       if (elem.x === sPoints[i].x && elem.y === sPoints[i].y) {
         clearInterval(interval);
+        death.play();
         gameAlert.classList.remove("display-none");
         gameAlert.querySelector(".score").textContent = score;
       }
@@ -119,12 +150,13 @@ function game() {
   sPoints.unshift({ x: x, y: y });
 }
 
-export default function main() {
+setHandlers();
+
+export function main() {
   (sPoints = []), (temp = ""), (lastStep = ""), (score = 0);
   document.addEventListener("keydown", setAxis);
   generatePoint();
-  setHandlers();
-  interval = setInterval(game, delay);
+  interval = setInterval(game, settings.delay);
 }
 
 main();

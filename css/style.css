@@ -1,8 +1,10 @@
 body {
-  background-color: black;
   text-align: center;
   padding-top: 25px;
   font-family: "Press Start 2p";
+}
+.black {
+  background-color: black;
 }
 #canvas {
   position: relative;
@@ -135,7 +137,7 @@ body {
 .game-settings {
   position: absolute;
   width: 300px;
-  height: 425px;
+  height: 475px;
   background-color: white;
   margin-left: auto;
   margin-right: auto;
