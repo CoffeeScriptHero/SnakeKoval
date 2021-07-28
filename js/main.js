@@ -85,11 +85,7 @@ const updateValues = () => {
         title.classList.add("smaller-fz");
       }
     }
-    if (parsed.borders) {
-      parsed.borders == "false"
-        ? (settings.borders = false)
-        : (settings.borders = true);
-    }
+    settings.borders = parsed.borders;
   }
   sPoints = [];
   temp = "";

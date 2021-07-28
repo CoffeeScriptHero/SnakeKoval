@@ -25,6 +25,8 @@ export {
 };
 import { background, main } from "./main.js";
 
+inputs[1].checked = true;
+
 //да и это впрочем
 export function setHandlers() {
   closeBtn.addEventListener("click", () => {
@@ -57,11 +59,9 @@ export function setHandlers() {
       }
     });
 
-    if (settings.borders == "false") {
-      inputs[1].checked = true;
-    } else {
-      inputs[0].checked = true;
-    }
+    settings.borders == false
+      ? (inputs[1].checked = true)
+      : (inputs[0].checked = true);
   });
 
   saveBtn.addEventListener("click", () => {
@@ -113,10 +113,6 @@ export function setHandlers() {
       }
     });
 
-    inputs[1].checked == true
-      ? (settings.borders = "false")
-      : (settings.borders = "true");
-
     if (settings["game-mode"] == "fumny") {
       const haha = new Audio("../sounds/haha.mp3");
       haha.play();
@@ -124,6 +120,11 @@ export function setHandlers() {
       const appear = new Audio("../sounds/pendos-appear.mp3");
       appear.play();
     }
+
+    inputs[1].checked == true
+      ? (settings.borders = false)
+      : (settings.borders = true);
+
     localStorage.setItem("settings", JSON.stringify(settings));
   });
 }
