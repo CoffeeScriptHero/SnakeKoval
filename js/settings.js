@@ -107,9 +107,6 @@ export function setHandlers() {
           }
           settings["speed"] = select.value;
           break;
-        case "size":
-          settings.size = select.value;
-          break;
       }
     });
 

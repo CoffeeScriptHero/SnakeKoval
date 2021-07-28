@@ -71,20 +71,6 @@ const updateValues = () => {
     if (parsed["game-mode"]) {
       gameMode = parsed["game-mode"];
     }
-
-    if (parsed.size) {
-      if (parsed.size == "default") {
-        canvas.width = 1350;
-        canvas.height = 720;
-        header.classList.remove("medium-width");
-        title.classList.remove("smaller-fz");
-      } else if (parsed.size == "medium") {
-        canvas.width = 1080;
-        canvas.height = 510;
-        header.classList.add("medium-width");
-        title.classList.add("smaller-fz");
-      }
-    }
     settings.borders = parsed.borders;
   }
   sPoints = [];
