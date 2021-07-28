@@ -1,4 +1,3 @@
-"use strict";
 import {
   btn,
   modal,
@@ -8,6 +7,8 @@ import {
   resBtn,
   gameAlert,
   settings,
+  header,
+  title,
 } from "./settings.js";
 
 const canvas = document.getElementById("canvas");
@@ -16,7 +17,12 @@ const pickup = new Audio("../sounds/pickup.mp3");
 const death = new Audio("../sounds/death.mp3");
 const fumny_pickup = new Audio("../sounds/fumny-pickup.mp3");
 const fumny_death = new Audio("../sounds/fumny-death.mp3");
-
+const pendos1 = new Audio("../sounds/pendos1.mp3");
+const pendos2 = new Audio("../sounds/pendos2.mp3");
+const pendos3 = new Audio("../sounds/pendos3.mp3");
+const pendos4 = new Audio("../sounds/pendos4.mp3");
+const pendos_death = new Audio("../sounds/pendos-death.mp3");
+const pendosArr = [pendos1, pendos2, pendos3, pendos4];
 export const background = new Image();
 background.src = "../images/backgrounds/default.jpg";
 
@@ -32,46 +38,62 @@ let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   score = 0,
   lastStep,
   interval,
+  isDead = false,
   gameMode = settings["game-mode"];
 
 sPoints[0] = { x: x, y: y };
 
-if (localStorage.getItem("settings")) {
-  var parsed = JSON.parse(localStorage["settings"]);
-  parsed["snake-bg"]
-    ? (background.src = parsed["snake-bg-src"])
-    : (background.src = "../images/backgrounds/default.jpg");
-
-  if (parsed["snake-color"]) {
-    settings.color = parsed["snake-color"];
-  }
-
-  if (parsed["page-bg"] == "white") {
-    document.body.classList.remove("black");
-    document.querySelector(".title").classList.remove("neon-title");
-  } else {
-    document.body.classList.add("black");
-    document.querySelector(".title").classList.add("neon-title");
-  }
-
-  if (parsed["game-mode"]) {
-    gameMode = parsed["game-mode"];
-  }
-}
-
 const updateValues = () => {
   if (localStorage.getItem("settings")) {
-    const locale_delay = JSON.parse(localStorage.getItem("settings")).delay;
-    const locale_gameMode = JSON.parse(localStorage.getItem("settings"))[
-      "game-mode"
-    ];
-    if (locale_delay) {
-      delay = locale_delay;
+    const parsed = JSON.parse(localStorage["settings"]);
+    parsed["snake-bg"]
+      ? (background.src = parsed["snake-bg-src"])
+      : (background.src = "../images/backgrounds/default.jpg");
+
+    if (parsed["snake-color"]) {
+      settings.color = parsed["snake-color"];
     }
-    if (locale_gameMode) {
-      gameMode = locale_gameMode;
+
+    if (parsed["page-bg"] == "white") {
+      document.body.classList.remove("black");
+      title.classList.remove("neon-title");
+    } else {
+      document.body.classList.add("black");
+      title.classList.add("neon-title");
+    }
+
+    if (parsed.delay) {
+      delay = parsed.delay;
+    }
+    if (parsed["game-mode"]) {
+      gameMode = parsed["game-mode"];
+    }
+    if (parsed.size) {
+      if (parsed.size == "default") {
+        canvas.width = 1350;
+        canvas.height = 720;
+        header.classList.remove("medium-width");
+        title.classList.remove("smaller-fz");
+      } else if (parsed.size == "medium") {
+        canvas.width = 1140;
+        canvas.height = 630;
+        header.classList.add("medium-width");
+        title.classList.add("smaller-fz");
+      }
+    }
+    if (parsed.borders) {
+      parsed.borders == "false"
+        ? (settings.borders = false)
+        : (settings.borders = true);
     }
   }
+  sPoints = [];
+  temp = "";
+  lastStep = "";
+  score = 0;
+  x = Math.floor(Math.random() * (canvas.width / 30)) * 30;
+  y = Math.floor(Math.random() * (canvas.height / 30)) * 30;
+  document.querySelector(".score").textContent = 0;
 };
 
 const generatePoint = () => {
@@ -100,8 +122,11 @@ const check = () => {
       pickup.play();
     } else if (gameMode == "fumny") {
       fumny_pickup.play();
+    } else if (gameMode == "pendos") {
+      pendosArr[Math.floor(Math.random() * 4)].play();
     }
     score++;
+    document.querySelector(".score").textContent = score;
     generatePoint();
     return;
   }
@@ -109,16 +134,38 @@ const check = () => {
 };
 
 const checkCoordinates = () => {
-  if (x >= canvas.width) {
-    x = -30;
-  } else if (x <= -30) {
-    x = canvas.width;
+  if (!settings.borders) {
+    if (x >= canvas.width) {
+      x = -30;
+    } else if (x <= -30) {
+      x = canvas.width;
+    }
+    if (y >= canvas.height) {
+      y = -30;
+    } else if (y <= -30) {
+      y = canvas.height;
+    }
+  } else if (settings.borders) {
+    if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) {
+      checkDeath(true);
+    }
   }
+};
 
-  if (y >= canvas.height) {
-    y = -30;
-  } else if (y <= -30) {
-    y = canvas.height;
+const checkDeath = (isDead) => {
+  for (let i = 0; i < sPoints.length; i++) {
+    if ((x == sPoints[i].x && y == sPoints[i].y) || isDead) {
+      clearInterval(interval);
+      if (gameMode == "default") {
+        death.play();
+      } else if (gameMode == "fumny") {
+        fumny_death.play();
+      } else if (gameMode == "pendos") {
+        pendos_death.play();
+      }
+      gameAlert.classList.remove("display-none");
+      gameAlert.querySelector(".score").textContent = score;
+    }
   }
 };
 
@@ -135,9 +182,10 @@ function setAxis(e) {
 }
 
 function game() {
-  checkCoordinates();
   ctx.drawImage(background, 0, 0);
+
   spawnPoint();
+
   for (let i = 0; i < sPoints.length; i++) {
     if (gameMode == "default") {
       ctx.fillStyle = settings.color;
@@ -166,30 +214,17 @@ function game() {
 
   check();
 
-  sPoints.forEach((elem, index) => {
-    for (let i = 0; i < sPoints.length; i++) {
-      if (i === index) return;
-      if (elem.x === sPoints[i].x && elem.y === sPoints[i].y) {
-        clearInterval(interval);
-        if (gameMode == "default") {
-          death.play();
-        } else if (gameMode == "fumny") {
-          fumny_death.play();
-        }
-        gameAlert.classList.remove("display-none");
-        gameAlert.querySelector(".score").textContent = score;
-      }
-    }
-  });
+  checkDeath();
 
   sPoints.unshift({ x: x, y: y });
+
+  checkCoordinates();
 }
 
 setHandlers();
 
 export function main() {
   updateValues();
-  (sPoints = []), (temp = ""), (lastStep = ""), (score = 0);
   document.addEventListener("keydown", setAxis);
   generatePoint();
   interval = setInterval(game, delay);
