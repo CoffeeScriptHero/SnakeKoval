@@ -6,9 +6,10 @@ const resBtn = document.querySelector(".game-restart");
 const gameAlert = document.querySelector(".game-alert");
 const closeBtn = document.querySelector(".close-button");
 const firstAlert = document.querySelector(".first-alert");
-const settings = { color: "white", "game-mode": "default", borders: false };
+const settings = { color: "default", "game-mode": "default", borders: false };
 const header = document.querySelector(".snake-header");
 const title = document.querySelector(".title");
+const inputs = document.querySelectorAll("input");
 
 export {
   btn,
@@ -42,27 +43,25 @@ export function setHandlers() {
       return;
     modal.classList.toggle("display-none");
     const localeSettings = localStorage.getItem("settings");
-    const parsedSettings = JSON.parse(localStorage.getItem("settings"));
+    const parsedSettings = JSON.parse(localeSettings);
+    if (parsedSettings === null) return;
+    console.log(parsedSettings);
     selects.forEach((select, index) => {
-      if (!localeSettings || !parsedSettings[select.id]) {
-        select.value = select.querySelector(`option[value="default"]`).value;
-      } else {
-        // console.log(
-        //   (select.value = select.querySelector(
-        //     `option[value="${parsedSettings[select.id]}"]`
-        //   ).value)
-        // );
+      if (parsedSettings[select.id]) {
+        console.log(select.id, index);
         select.value = select.querySelector(
           `option[value="${parsedSettings[select.id]}"]`
         ).value;
+      } else {
+        select.value = select.querySelector(`option[value="default"]`).value;
       }
     });
 
-    modal.querySelectorAll("input").forEach((input) => {
-      input.hasAttribute("checked")
-        ? (input.checked = true)
-        : (input.checked = false);
-    });
+    if (settings.borders == "false") {
+      inputs[1].checked = true;
+    } else {
+      inputs[0].checked = true;
+    }
   });
 
   saveBtn.addEventListener("click", () => {
@@ -75,9 +74,7 @@ export function setHandlers() {
             (settings["snake-bg"] = select.value);
           break;
         case "snake-color":
-          select.value == "default"
-            ? (settings.color = "white")
-            : (settings.color = select.value);
+          settings.color = select.value;
           settings["snake-color"] = settings.color;
           break;
         case "page-bg":
@@ -115,10 +112,11 @@ export function setHandlers() {
           break;
       }
     });
-    const input = modal.querySelector(`input[value="no"]`);
-    input.checked == true
+
+    inputs[1].checked == true
       ? (settings.borders = "false")
       : (settings.borders = "true");
+
     if (settings["game-mode"] == "fumny") {
       const haha = new Audio("../sounds/haha.mp3");
       haha.play();

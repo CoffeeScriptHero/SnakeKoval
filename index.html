@@ -16,137 +16,143 @@
     <title>JavaScript Snake</title>
   </head>
   <body class="black">
-    <div class="snake-header">
-      <p class="title neon-title">JavaScript Snake</p>
-      <p class="user-score">Score: <span class="score">0</span></p>
-      <a href="#" class="settings-button">Настроить игру</a>
-    </div>
-    <canvas
-      id="canvas"
-      class="default"
-      tabindex="1"
-      width="1350"
-      height="720"
-    ></canvas>
-    <div class="first-alert absolute">
-      <p class="message">В игре есть звуковые эффекты.</p>
-      <p class="message">
-        Некоторые настройки появляются не сразу (скорость, режим игры, размер
-        поля, строгие границы поля). Чтобы они появились, вы должны их выбрать
-        либо пока игра не началась (они активируются после смерти), либо просто
-        перезагрузив страницу.
-      </p>
-      <a href="#" class="close-button">Понятно</a>
-    </div>
-    <div class="game-settings absolute display-none">
-      <p class="settings-title">Настройки игры</p>
-      <div class="snake-bg-wrapper settings-wrapper">
-        <p class="snake-background settings-option">Фон поля:</p>
-        <select id="snake-bg" class="settings-select">
-          <option value="black" selected>Черный</option>
-          <option value="white">Белый</option>
-          <option value="green">Зеленый</option>
-          <option value="violeta">Фиолетовый</option>
-          <option value="blue">Синий</option>
-          <option value="default">Океан</option>
-          <option value="lightblue">Голубой</option>
-          <option value="red">Красный</option>
-        </select>
+    <div class="snake">
+      <div class="snake-header">
+        <p class="title neon-title">JavaScript Snake</p>
+        <p class="user-score">Score: <span class="score">0</span></p>
+        <a href="#" class="settings-button">Настроить игру</a>
       </div>
-      <div class="snake-color-wrapper settings-wrapper">
-        <p class="snake-color settings-option">Цвет змейки:</p>
-        <select id="snake-color" class="settings-select">
-          <option value="black">Черный</option>
-          <option value="default" selected>Белый</option>
-          <option value="green">Зеленый</option>
-          <option value="blue">Синий</option>
-          <option value="lightblue">Голубой</option>
-          <option value="red">Красный</option>
-        </select>
-      </div>
-      <div class="page-wrapper settings-wrapper">
-        <p class="page-bg settings-option">Фон страницы:</p>
-        <select id="page-bg" class="settings-select">
-          <option value="default" selected>Черный</option>
-          <option value="white">Белый</option>
-        </select>
-      </div>
-      <div class="game-mode-wrapper settings-wrapper">
-        <p class="game-mode settings-option">Режим игры:</p>
-        <select id="game-mode" class="settings-select">
-          <option value="default" selected>Обычный</option>
-          <option value="pendos">Pendos mode</option>
-          <option value="fumny">???</option>
-        </select>
-      </div>
-      <div class="speed-wrapper settings-wrapper">
-        <p class="speed-select settings-option">Скорость:</p>
-        <select id="speed" class="settings-select">
-          <option value="noob">Медленно</option>
-          <option value="easy">Средне</option>
-          <option selected value="default">Приемлимо</option>
-          <option value="fast">Быстро</option>
-          <option value="very-fast">Очень быстро</option>
-          <option value="omg">Вы серьезно?</option>
-        </select>
-      </div>
-      <div class="size-wrapper settings-wrapper">
-        <p class="size-select settings-option">Размер поля:</p>
-        <select id="size" class="settings-select">
-          <option value="medium">Среднее</option>
-          <option selected value="default">Большое</option>
-        </select>
-      </div>
-      <div class="border-wrapper settings-wrapper">
-        <p class="settings-option">Границы поля</p>
-        <p class="settings-option">
-          <input type="radio" name="rdbtn" value="yes" />Да
+      <canvas
+        id="canvas"
+        class="default"
+        tabindex="1"
+        width="1350"
+        height="720"
+      ></canvas>
+      <div class="first-alert absolute">
+        <p class="message">В игре есть звуковые эффекты.</p>
+        <p class="message">
+          Некоторые настройки появляются не сразу (скорость, режим игры, размер
+          поля, строгие границы поля). Чтобы они появились, вы должны их выбрать
+          либо пока игра не началась (они активируются после смерти), либо
+          просто перезагрузив страницу.
         </p>
-        <p class="settings-option">
-          <input type="radio" name="rdbtn" value="no" checked />Нет
-        </p>
+        <a href="#" class="close-button">Понятно</a>
       </div>
-      <div class="save-wrapper">
-        <a href="#" class="save-button">Сохранить настройки</a>
+      <div class="game-settings absolute display-none">
+        <p class="settings-title">Настройки игры</p>
+        <div class="snake-bg-wrapper settings-wrapper">
+          <p class="snake-background settings-option">Фон поля:</p>
+          <select id="snake-bg" class="settings-select">
+            <option value="black">Черный</option>
+            <option value="white">Белый</option>
+            <option value="green">Зеленый</option>
+            <option value="violeta">Фиолетовый</option>
+            <option value="blue">Синий</option>
+            <option value="default" selected>Океан</option>
+            <option value="lightblue">Голубой</option>
+            <option value="red">Красный</option>
+          </select>
+        </div>
+        <div class="snake-color-wrapper settings-wrapper">
+          <p class="snake-color settings-option">Цвет змейки:</p>
+          <select id="snake-color" class="settings-select">
+            <option value="black">Черный</option>
+            <option value="default" selected>Белый</option>
+            <option value="green">Зеленый</option>
+            <option value="blue">Синий</option>
+            <option value="lightblue">Голубой</option>
+            <option value="red">Красный</option>
+          </select>
+        </div>
+        <div class="page-wrapper settings-wrapper">
+          <p class="page-bg settings-option">Фон страницы:</p>
+          <select id="page-bg" class="settings-select">
+            <option value="default" selected>Черный</option>
+            <option value="white">Белый</option>
+          </select>
+        </div>
+        <div class="game-mode-wrapper settings-wrapper">
+          <p class="game-mode settings-option">Режим игры:</p>
+          <select id="game-mode" class="settings-select">
+            <option value="default" selected>Обычный</option>
+            <option value="pendos">Pendos mode</option>
+            <option value="fumny">???</option>
+          </select>
+        </div>
+        <div class="speed-wrapper settings-wrapper">
+          <p class="speed-select settings-option">Скорость:</p>
+          <select id="speed" class="settings-select">
+            <option value="noob">Медленно</option>
+            <option value="easy">Средне</option>
+            <option selected value="default">Приемлимо</option>
+            <option value="fast">Быстро</option>
+            <option value="very-fast">Очень быстро</option>
+            <option value="omg">Вы серьезно?</option>
+          </select>
+        </div>
+        <div class="size-wrapper settings-wrapper">
+          <p class="size-select settings-option">Размер поля:</p>
+          <select id="size" class="settings-select">
+            <option value="medium">Среднее</option>
+            <option selected value="default">Большое</option>
+          </select>
+        </div>
+        <div class="border-wrapper settings-wrapper">
+          <p class="settings-option">Границы поля</p>
+          <p class="settings-option">
+            <input type="radio" name="rdbtn" value="yes" />Да
+          </p>
+          <p class="settings-option">
+            <input type="radio" name="rdbtn" value="no" checked />Нет
+          </p>
+        </div>
+        <div class="save-wrapper">
+          <a href="#" class="save-button">Сохранить настройки</a>
+        </div>
       </div>
+      <div class="game-alert neon-border absolute display-none">
+        <p class="game-over">Game over</p>
+        <p class="game-result">Ваш счет: <span class="score"></span></p>
+        <p class="game-joke">Все равно в змейке невозможно выиграть</p>
+        <button class="game-restart">
+          <svg display="none">
+            <symbol id="restart" width="40" height="40" viewBox="0 0 24 24">
+              <g>
+                <path
+                  d="M13.5 2c-5.629 0-10.212 4.436-10.475 10h-3.025l4.537 5.917 4.463-5.917h-2.975c.26-3.902 3.508-7 7.475-7 4.136 0 7.5 3.364 7.5 7.5s-3.364 7.5-7.5 7.5c-2.381 0-4.502-1.119-5.876-2.854l-1.847 2.449c1.919 2.088 4.664 3.405 7.723 3.405 5.798 0 10.5-4.702 10.5-10.5s-4.702-10.5-10.5-10.5z"
+                />
+              </g>
+            </symbol>
+          </svg>
+          <svg class="svg-restart">
+            <use xlink:href="#restart"></use>
+          </svg>
+        </button>
+      </div>
+      <footer class="footer">
+        <a
+          href="https://coffeescripthero.github.io/Whack-a-mole/"
+          class="footer-link"
+          target="_blank"
+          >my first game</a
+        ><a
+          href="https://github.com/CoffeeScriptHero"
+          class="footer-link"
+          target="_blank"
+          >github</a
+        ><a
+          href="https://www.instagram.com/denya_aquapark/"
+          class="footer-link"
+          target="_blank"
+          >instagram</a
+        >
+      </footer>
     </div>
-    <div class="game-alert neon-border absolute display-none">
-      <p class="game-over">Game over</p>
-      <p class="game-result">Ваш счет: <span class="score"></span></p>
-      <p class="game-joke">Все равно в змейке невозможно выиграть</p>
-      <button class="game-restart">
-        <svg display="none">
-          <symbol id="restart" width="40" height="40" viewBox="0 0 24 24">
-            <g>
-              <path
-                d="M13.5 2c-5.629 0-10.212 4.436-10.475 10h-3.025l4.537 5.917 4.463-5.917h-2.975c.26-3.902 3.508-7 7.475-7 4.136 0 7.5 3.364 7.5 7.5s-3.364 7.5-7.5 7.5c-2.381 0-4.502-1.119-5.876-2.854l-1.847 2.449c1.919 2.088 4.664 3.405 7.723 3.405 5.798 0 10.5-4.702 10.5-10.5s-4.702-10.5-10.5-10.5z"
-              />
-            </g>
-          </symbol>
-        </svg>
-        <svg class="svg-restart">
-          <use xlink:href="#restart"></use>
-        </svg>
-      </button>
+    <div class="fumny_alert">
+      <img class="fumny_pic" src="./images/fumny.jpg" alt="" />
+      <p class="fumny_text">Извините, с телефона тут делать нечего</p>
     </div>
-    <footer class="footer">
-      <a
-        href="https://coffeescripthero.github.io/Whack-a-mole/"
-        class="footer-link"
-        target="_blank"
-        >my first game</a
-      ><a
-        href="https://github.com/CoffeeScriptHero"
-        class="footer-link"
-        target="_blank"
-        >github</a
-      ><a
-        href="https://www.instagram.com/denya_aquapark/"
-        class="footer-link"
-        target="_blank"
-        >instagram</a
-      >
-    </footer>
     <script>
       if (localStorage.getItem("firstVisit")) {
         document.querySelector(".first-alert").classList.add("display-none");

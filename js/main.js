@@ -65,9 +65,11 @@ const updateValues = () => {
     if (parsed.delay) {
       delay = parsed.delay;
     }
+
     if (parsed["game-mode"]) {
       gameMode = parsed["game-mode"];
     }
+
     if (parsed.size) {
       if (parsed.size == "default") {
         canvas.width = 1350;
@@ -76,7 +78,7 @@ const updateValues = () => {
         title.classList.remove("smaller-fz");
       } else if (parsed.size == "medium") {
         canvas.width = 1140;
-        canvas.height = 630;
+        canvas.height = 580;
         header.classList.add("medium-width");
         title.classList.add("smaller-fz");
       }
@@ -188,7 +190,9 @@ function game() {
 
   for (let i = 0; i < sPoints.length; i++) {
     if (gameMode == "default") {
-      ctx.fillStyle = settings.color;
+      settings.color = "default"
+        ? (ctx.fillStyle = "white")
+        : (ctx.fillStyle = settings.color);
       ctx.fillRect(sPoints[i].x, sPoints[i].y, width, height);
       ctx.strokeRect(sPoints[i].x, sPoints[i].y, width, height);
     } else {
