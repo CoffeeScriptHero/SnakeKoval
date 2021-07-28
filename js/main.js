@@ -63,7 +63,6 @@ const updateValues = () => {
       document.querySelector(".user-score").classList.remove("black-fz");
       title.classList.add("neon-title");
     }
-    console.log(document.querySelector(".user-score"));
 
     if (parsed.delay) {
       delay = parsed.delay;
@@ -193,7 +192,7 @@ function game() {
 
   for (let i = 0; i < sPoints.length; i++) {
     if (gameMode == "default") {
-      settings.color = "default"
+      settings.color == "default"
         ? (ctx.fillStyle = "white")
         : (ctx.fillStyle = settings.color);
       ctx.fillRect(sPoints[i].x, sPoints[i].y, width, height);
