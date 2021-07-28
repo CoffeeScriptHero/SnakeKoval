@@ -77,8 +77,8 @@ const updateValues = () => {
         header.classList.remove("medium-width");
         title.classList.remove("smaller-fz");
       } else if (parsed.size == "medium") {
-        canvas.width = 1140;
-        canvas.height = 580;
+        canvas.width = 1080;
+        canvas.height = 510;
         header.classList.add("medium-width");
         title.classList.add("smaller-fz");
       }
