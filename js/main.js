@@ -56,11 +56,14 @@ const updateValues = () => {
 
     if (parsed["page-bg"] == "white") {
       document.body.classList.remove("black");
+      document.querySelector(".user-score").classList.add("black-fz");
       title.classList.remove("neon-title");
     } else {
       document.body.classList.add("black");
+      document.querySelector(".user-score").classList.remove("black-fz");
       title.classList.add("neon-title");
     }
+    console.log(document.querySelector(".user-score"));
 
     if (parsed.delay) {
       delay = parsed.delay;
