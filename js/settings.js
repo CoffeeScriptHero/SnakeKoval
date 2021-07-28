@@ -10,6 +10,7 @@ const settings = { color: "default", "game-mode": "default", borders: false };
 const header = document.querySelector(".snake-header");
 const title = document.querySelector(".title");
 const inputs = document.querySelectorAll("input");
+//это следовало бы вынести в отдельный файл
 
 export {
   btn,
@@ -24,6 +25,7 @@ export {
 };
 import { background, main } from "./main.js";
 
+//да и это впрочем
 export function setHandlers() {
   closeBtn.addEventListener("click", () => {
     firstAlert.classList.add("display-none");
@@ -45,10 +47,8 @@ export function setHandlers() {
     const localeSettings = localStorage.getItem("settings");
     const parsedSettings = JSON.parse(localeSettings);
     if (parsedSettings === null) return;
-    console.log(parsedSettings);
     selects.forEach((select, index) => {
       if (parsedSettings[select.id]) {
-        console.log(select.id, index);
         select.value = select.querySelector(
           `option[value="${parsedSettings[select.id]}"]`
         ).value;
