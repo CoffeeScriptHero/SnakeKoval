@@ -24,7 +24,7 @@ const pendos4 = new Audio("../sounds/pendos4.mp3");
 const pendos_death = new Audio("../sounds/pendos-death.mp3");
 const pendosArr = [pendos1, pendos2, pendos3, pendos4];
 export const background = new Image();
-background.src = "../images/backgrounds/default.jpg";
+background.src = "./images/backgrounds/default.jpg";
 
 let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   y = Math.floor(Math.random() * (canvas.height / 30)) * 30,
