@@ -11,7 +11,10 @@ import {
   title,
 } from "./settings.js";
 
-const canvas = screen.width <= 1600 ? document.getElementById("laptop-canvas") : document.getElementById("canvas");
+const canvas =
+  screen.width <= 1600
+    ? document.getElementById("laptop-canvas")
+    : document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const pickup = new Audio("../sounds/pickup.mp3");
 const death = new Audio("../sounds/death.mp3");
@@ -25,6 +28,7 @@ const pendos_death = new Audio("../sounds/pendos-death.mp3");
 const pendosArr = [pendos1, pendos2, pendos3, pendos4];
 export const background = new Image();
 background.src = "./images/backgrounds/default.jpg";
+
 let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   y = Math.floor(Math.random() * (canvas.height / 30)) * 30,
   temp,
