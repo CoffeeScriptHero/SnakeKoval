@@ -10,6 +10,7 @@ const settings = { color: "default", "game-mode": "default", borders: false };
 const header = document.querySelector(".snake-header");
 const title = document.querySelector(".title");
 const inputs = document.querySelectorAll("input");
+const score = document.querySelector(".user-score")
 //это следовало бы вынести в отдельный файл
 
 export {
@@ -79,11 +80,13 @@ export function setHandlers() {
           break;
         case "page-bg":
           if (select.value == "white") {
-            document.querySelector(".title").classList.remove("neon-title");
+            title.classList.remove("neon-title");
+            score.classList.add("black-fz")
             document.body.classList.remove("black");
             settings["page-bg"] = "white";
           } else {
-            document.querySelector(".title").classList.add("neon-title");
+            title.classList.add("neon-title");
+            score.classList.remove("black-fz")
             document.body.classList.add("black");
             settings["page-bg"] = "default";
           }
