@@ -6,12 +6,16 @@ const resBtn = document.querySelector(".game-restart");
 const gameAlert = document.querySelector(".game-alert");
 const closeBtn = document.querySelector(".close-button");
 const firstAlert = document.querySelector(".first-alert");
-const settings = { color: "default", "game-mode": "default", borders: false };
+const settings = {
+  color: "default",
+  "game-mode": "default",
+  borders: false,
+  "page-bg": "default",
+};
 const header = document.querySelector(".snake-header");
 const title = document.querySelector(".title");
 const inputs = document.querySelectorAll("input");
-const score = document.querySelector(".user-score")
-//это следовало бы вынести в отдельный файл
+const score = document.querySelector(".user-score");
 
 export {
   btn,
@@ -24,11 +28,10 @@ export {
   header,
   title,
 };
-import { background, main } from "./main.js";
+import { background, main, updateValues } from "./main.js";
 
 inputs[1].checked = true;
 
-//да и это впрочем
 export function setHandlers() {
   closeBtn.addEventListener("click", () => {
     firstAlert.classList.add("display-none");
@@ -47,18 +50,20 @@ export function setHandlers() {
     )
       return;
     modal.classList.toggle("display-none");
-    const localeSettings = localStorage.getItem("settings");
-    const parsedSettings = JSON.parse(localeSettings);
-    if (parsedSettings === null) return;
-    selects.forEach((select, index) => {
-      if (parsedSettings[select.id]) {
+
+    const parsedSettings = JSON.parse(localStorage.getItem("settings"));
+
+    if (parsedSettings === null) {
+      selects.forEach((select) => {
+        select.value = select.querySelector(`option[value="default"]`).value;
+      });
+    } else {
+      selects.forEach((select) => {
         select.value = select.querySelector(
           `option[value="${parsedSettings[select.id]}"]`
         ).value;
-      } else {
-        select.value = select.querySelector(`option[value="default"]`).value;
-      }
-    });
+      });
+    }
 
     settings.borders == false
       ? (inputs[1].checked = true)
@@ -81,12 +86,12 @@ export function setHandlers() {
         case "page-bg":
           if (select.value == "white") {
             title.classList.remove("neon-title");
-            score.classList.add("black-fz")
+            score.classList.add("black-fz");
             document.body.classList.remove("black");
             settings["page-bg"] = "white";
           } else {
             title.classList.add("neon-title");
-            score.classList.remove("black-fz")
+            score.classList.remove("black-fz");
             document.body.classList.add("black");
             settings["page-bg"] = "default";
           }
@@ -108,17 +113,17 @@ export function setHandlers() {
           } else if (select.value == "omg") {
             settings.delay = 1;
           }
-          settings["speed"] = select.value;
+          settings.speed = select.value;
           break;
       }
     });
 
     if (settings["game-mode"] == "fumny") {
-      const haha = new Audio("../sounds/haha.mp3");
-      haha.play();
+      const fumny_appear = new Audio("../sounds/fumny-appear.mp3");
+      fumny_appear.play();
     } else if (settings["game-mode"] == "pendos") {
-      const appear = new Audio("../sounds/pendos-appear.mp3");
-      appear.play();
+      const pendos_appear = new Audio("../sounds/pendos-appear.mp3");
+      pendos_appear.play();
     }
 
     inputs[1].checked == true
@@ -126,5 +131,7 @@ export function setHandlers() {
       : (settings.borders = true);
 
     localStorage.setItem("settings", JSON.stringify(settings));
+
+    main();
   });
 }

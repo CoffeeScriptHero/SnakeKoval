@@ -35,8 +35,8 @@ let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   width = 30,
   height = 30,
   dx,
-  delay = 40,
   dy,
+  delay = 40,
   sPoints = [],
   score = 0,
   lastStep,
@@ -46,40 +46,32 @@ let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
 
 sPoints[0] = { x: x, y: y };
 
-const updateValues = () => {
+export const updateValues = async () => {
   if (localStorage.getItem("settings")) {
     const parsed = JSON.parse(localStorage["settings"]);
-    parsed["snake-bg"]
-      ? (background.src = parsed["snake-bg-src"])
-      : (background.src = "../images/backgrounds/default.jpg");
 
-    if (parsed["snake-color"]) {
-      settings.color = parsed["snake-color"];
-    }
+    background.src = parsed["snake-bg-src"];
+
+    settings.color = parsed["snake-color"];
 
     if (parsed["page-bg"] == "white") {
       document.body.classList.remove("black");
       document.querySelector(".user-score").classList.add("black-fz");
       title.classList.remove("neon-title");
-    } else {
-      document.body.classList.add("black");
-      document.querySelector(".user-score").classList.remove("black-fz");
-      title.classList.add("neon-title");
     }
 
-    if (parsed.delay) {
-      delay = parsed.delay;
-    }
+    delay = parsed.delay;
 
-    if (parsed["game-mode"]) {
-      gameMode = parsed["game-mode"];
-    }
+    gameMode = parsed["game-mode"];
+
     settings.borders = parsed.borders;
   }
+
   sPoints = [];
   temp = "";
   lastStep = "";
   score = 0;
+  clearInterval(interval);
   x = Math.floor(Math.random() * (canvas.width / 30)) * 30;
   y = Math.floor(Math.random() * (canvas.height / 30)) * 30;
   document.querySelector(".score").textContent = 0;
@@ -89,19 +81,19 @@ const generatePoint = () => {
   do {
     dx = Math.floor(Math.random() * (canvas.width / 30)) * 30;
     dy = Math.floor(Math.random() * (canvas.height / 30)) * 30;
-  } while (dx == x && dy == y);
+  } while (dx == x || dy == y);
 };
 
 const spawnPoint = () => {
   if (gameMode == "default") {
     ctx.fillStyle = "red";
     ctx.fillRect(dx, dy, width, height);
-    ctx.strokeRect(dx, dy, width, height);
   } else {
     const img1 = new Image();
     img1.src = `../images/skins/${gameMode}2.jpg`;
     ctx.drawImage(img1, dx, dy);
   }
+  ctx.strokeRect(dx, dy, width, height);
 };
 
 const check = () => {
@@ -172,21 +164,19 @@ function setAxis(e) {
 
 function game() {
   ctx.drawImage(background, 0, 0);
-
   spawnPoint();
-
   for (let i = 0; i < sPoints.length; i++) {
     if (gameMode == "default") {
       settings.color == "default"
         ? (ctx.fillStyle = "white")
         : (ctx.fillStyle = settings.color);
       ctx.fillRect(sPoints[i].x, sPoints[i].y, width, height);
-      ctx.strokeRect(sPoints[i].x, sPoints[i].y, width, height);
     } else {
       const img2 = new Image();
       img2.src = `../images/skins/${gameMode}1.jpg`;
       ctx.drawImage(img2, sPoints[i].x, sPoints[i].y);
     }
+    ctx.strokeRect(sPoints[i].x, sPoints[i].y, width, height);
   }
 
   if (temp == "left") {

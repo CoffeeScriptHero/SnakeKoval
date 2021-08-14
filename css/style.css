@@ -110,7 +110,7 @@ body {
 }
 .first-alert {
   position: absolute;
-  width: 375px;
+  width: 395px;
   height: 450px;
   background-color: white;
   z-index: 2;
@@ -128,6 +128,11 @@ body {
 }
 .message:nth-child(2) {
   margin-bottom: 10px;
+}
+.message-img {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 2px;
 }
 .close-button {
   text-decoration: none;
