@@ -349,11 +349,12 @@ body {
   display: none;
 }
 @media (max-width: 1600px) {
-  .default {
+  .canvas {
     display: none;
   }
   .laptop {
     display: block;
+    margin: 0 auto;
   }
   .snake-header {
     max-width: 1080px;
