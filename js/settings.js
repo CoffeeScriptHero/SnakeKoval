@@ -1,35 +1,25 @@
-const btn = document.querySelector(`.settings-button`);
-const modal = document.querySelector(`.game-settings`);
-const selects = document.querySelectorAll(".settings-select");
-const saveBtn = document.querySelector(".save-button");
-const resBtn = document.querySelector(".game-restart");
-const gameAlert = document.querySelector(".game-alert");
-const closeBtn = document.querySelector(".close-button");
-const firstAlert = document.querySelector(".first-alert");
-const settings = {
-  color: "default",
-  "game-mode": "default",
-  borders: false,
-  "page-bg": "default",
-};
-const header = document.querySelector(".snake-header");
-const title = document.querySelector(".title");
-const inputs = document.querySelectorAll("input");
-const score = document.querySelector(".user-score");
-
-export {
+import {
   btn,
   modal,
   selects,
   saveBtn,
   resBtn,
   gameAlert,
-  settings,
-  header,
+  closeBtn,
+  firstAlert,
   title,
-};
-import { background, main, updateValues } from "./main.js";
+  inputs,
+  score,
+} from "./constants.js";
 
+import { background, main } from "./main.js";
+
+export const settings = {
+  color: "default",
+  "game-mode": "default",
+  borders: false,
+  "page-bg": "default",
+};
 inputs[1].checked = true;
 
 export function setHandlers() {

@@ -1,31 +1,23 @@
-import {
-  btn,
-  modal,
-  selects,
-  setHandlers,
-  saveBtn,
-  resBtn,
-  gameAlert,
-  settings,
-  header,
-  title,
-} from "./settings.js";
+import { settings, setHandlers } from "./settings.js";
 
-const canvas =
-  screen.width <= 1600
-    ? document.getElementById("laptop-canvas")
-    : document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-const pickup = new Audio("../sounds/pickup.mp3");
-const death = new Audio("../sounds/death.mp3");
-const fumny_pickup = new Audio("../sounds/fumny-pickup.mp3");
-const fumny_death = new Audio("../sounds/fumny-death.mp3");
-const pendos1 = new Audio("../sounds/pendos1.mp3");
-const pendos2 = new Audio("../sounds/pendos2.mp3");
-const pendos3 = new Audio("../sounds/pendos3.mp3");
-const pendos4 = new Audio("../sounds/pendos4.mp3");
-const pendos_death = new Audio("../sounds/pendos-death.mp3");
-const pendosArr = [pendos1, pendos2, pendos3, pendos4];
+import {
+  canvas,
+  ctx,
+  pickup,
+  death,
+  fumny_pickup,
+  fumny_death,
+  pendos1,
+  pendos2,
+  pendos3,
+  pendos4,
+  pendos_death,
+  pendosArr,
+  title,
+  gameAlert,
+  firstAlert,
+} from "./constants.js";
+
 export const background = new Image();
 background.src = "./images/backgrounds/default.jpg";
 
