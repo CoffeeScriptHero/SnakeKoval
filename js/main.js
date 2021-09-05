@@ -38,7 +38,7 @@ let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
 
 sPoints[0] = { x: x, y: y };
 
-export const updateValues = async () => {
+export const updateValues = () => {
   if (localStorage.getItem("settings")) {
     const parsed = JSON.parse(localStorage["settings"]);
 
