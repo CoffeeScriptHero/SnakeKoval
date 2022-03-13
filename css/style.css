@@ -192,10 +192,22 @@ body {
   letter-spacing: 2px;
   color: rgb(30, 71, 255);
   background: rgba(255, 255, 255, 1);
+  -webkit-transition: color 0.3s, background 0.5s;
   transition: color 0.3s, background 0.5s;
 }
 .settings-button:hover {
+  -webkit-animation: stripes 0.75s infinite linear;
   animation: stripes 0.75s infinite linear;
+  background: -webkit-linear-gradient(
+    45deg,
+    rgba(30, 45, 255, 1) 25%,
+    rgba(255, 255, 255, 1) 25%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(30, 45, 255, 1) 50%,
+    rgba(30, 45, 255, 1) 75%,
+    rgba(255, 255, 255, 1) 75%,
+    rgba(255, 255, 255, 1)
+  );
   background: linear-gradient(
     45deg,
     rgba(30, 45, 255, 1) 25%,
@@ -209,6 +221,14 @@ body {
   background-size: 10px 10px;
   color: #ff5050;
 }
+@-webkit-keyframes stripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 0;
+  }
+}
 @keyframes stripes {
   0% {
     background-position: 0 0;
@@ -217,7 +237,6 @@ body {
     background-position: 50px 0;
   }
 }
-
 .game-settings {
   position: absolute;
   width: 300px;

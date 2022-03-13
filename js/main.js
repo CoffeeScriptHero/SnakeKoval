@@ -7,15 +7,10 @@ import {
   death,
   fumny_pickup,
   fumny_death,
-  pendos1,
-  pendos2,
-  pendos3,
-  pendos4,
   pendos_death,
   pendosArr,
   title,
   gameAlert,
-  firstAlert,
 } from "./constants.js";
 
 export const background = new Image();
@@ -33,7 +28,6 @@ let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   score = 0,
   lastStep,
   interval,
-  isDead = false,
   gameMode = settings["game-mode"];
 
 sPoints[0] = { x: x, y: y };
@@ -110,13 +104,18 @@ const checkCoordinates = () => {
   if (!settings.borders) {
     if (x >= canvas.width) {
       x = -30;
-    } else if (x <= -30) {
+    } else if (x <= -30 && temp !== "up" && temp !== "down") {
       x = canvas.width;
+    } else if (x <= -30 && (temp === "up" || temp === "down")) {
+      x = canvas.width - 30;
     }
+
     if (y >= canvas.height) {
       y = -30;
-    } else if (y <= -30) {
+    } else if (y <= -30 && temp !== "right" && temp !== "left") {
       y = canvas.height;
+    } else if (y <= -30 && (temp === "right" || temp === "left")) {
+      y = canvas.height - 30;
     }
   } else if (settings.borders) {
     if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) {
