@@ -14,7 +14,7 @@ import {
 } from "./constants.js";
 
 export const background = new Image();
-background.src = "./images/backgrounds/default.jpg";
+background.src = "../images/backgrounds/default.jpg";
 
 let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   y = Math.floor(Math.random() * (canvas.height / 30)) * 30,
@@ -141,7 +141,7 @@ const checkDeath = (isDead) => {
   }
 };
 
-function setAxis(e) {
+const setAxis = (e) => {
   if (e.keyCode === 37 && temp !== "right" && lastStep !== "right") {
     temp = "left";
   } else if (e.keyCode === 38 && temp !== "down" && lastStep !== "down") {
@@ -151,9 +151,9 @@ function setAxis(e) {
   } else if (e.keyCode === 40 && temp !== "up" && lastStep !== "up") {
     temp = "down";
   }
-}
+};
 
-function game() {
+const game = () => {
   ctx.drawImage(background, 0, 0);
   spawnPoint();
   for (let i = 0; i < sPoints.length; i++) {
@@ -191,15 +191,15 @@ function game() {
   sPoints.unshift({ x: x, y: y });
 
   checkCoordinates();
-}
+};
 
 setHandlers();
 
-export function main() {
+export const main = () => {
   updateValues();
   document.addEventListener("keydown", setAxis);
   generatePoint();
   interval = setInterval(game, delay);
-}
+};
 
 main();
