@@ -1,2 +1,1 @@
-
-https://coffeescripthero.github.io/
+https://coffeescripthero.github.io/javascript-snake/
