@@ -65,7 +65,7 @@ export function setHandlers() {
     selects.forEach((select, index) => {
       switch (select.id) {
         case "snake-bg":
-          background.src = `../images/backgrounds/${select.value}.jpg`;
+          background.src = `/images/backgrounds/${select.value}.jpg`;
           (settings["snake-bg-src"] = background.src),
             (settings["snake-bg"] = select.value);
           break;
@@ -109,10 +109,10 @@ export function setHandlers() {
     });
 
     if (settings["game-mode"] == "fumny") {
-      const fumny_appear = new Audio("../sounds/fumny-appear.mp3");
+      const fumny_appear = new Audio("/sounds/fumny-appear.mp3");
       fumny_appear.play();
     } else if (settings["game-mode"] == "pendos") {
-      const pendos_appear = new Audio("../sounds/pendos-appear.mp3");
+      const pendos_appear = new Audio("/sounds/pendos-appear.mp3");
       pendos_appear.play();
     }
 

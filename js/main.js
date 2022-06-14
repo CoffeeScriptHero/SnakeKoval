@@ -14,7 +14,7 @@ import {
 } from "./constants.js";
 
 export const background = new Image();
-background.src = "../images/backgrounds/default.jpg";
+background.src = "/images/backgrounds/default.jpg";
 
 let x = Math.floor(Math.random() * (canvas.width / 30)) * 30,
   y = Math.floor(Math.random() * (canvas.height / 30)) * 30,
@@ -76,7 +76,7 @@ const spawnPoint = () => {
     ctx.fillRect(dx, dy, width, height);
   } else {
     const img1 = new Image();
-    img1.src = `../images/skins/${gameMode}2.jpg`;
+    img1.src = `/images/skins/${gameMode}2.jpg`;
     ctx.drawImage(img1, dx, dy);
   }
   ctx.strokeRect(dx, dy, width, height);
@@ -164,7 +164,7 @@ const game = () => {
       ctx.fillRect(sPoints[i].x, sPoints[i].y, width, height);
     } else {
       const img2 = new Image();
-      img2.src = `../images/skins/${gameMode}1.jpg`;
+      img2.src = `/images/skins/${gameMode}1.jpg`;
       ctx.drawImage(img2, sPoints[i].x, sPoints[i].y);
     }
     ctx.strokeRect(sPoints[i].x, sPoints[i].y, width, height);
