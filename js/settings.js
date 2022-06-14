@@ -65,7 +65,7 @@ export function setHandlers() {
     selects.forEach((select, index) => {
       switch (select.id) {
         case "snake-bg":
-          background.src = `/images/backgrounds/${select.value}.jpg`;
+          background.src = `images/backgrounds/${select.value}.jpg`;
           (settings["snake-bg-src"] = background.src),
             (settings["snake-bg"] = select.value);
           break;
